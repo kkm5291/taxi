@@ -13,9 +13,7 @@ public class JwtTokenFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         if (req.getMethod().equals("POST")) {
-            System.out.println("POST 요청됨");
             String headerAuth = req.getHeader("Authorization");
-            System.out.println(headerAuth);
             if (headerAuth.equals("gongdeok is soooooo cute")) {
                 chain.doFilter(req, res);
             } else {
