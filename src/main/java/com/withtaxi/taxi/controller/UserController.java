@@ -7,8 +7,10 @@ import com.withtaxi.taxi.model.dto.TokenDto;
 import com.withtaxi.taxi.model.dto.TokenRequestDto;
 import com.withtaxi.taxi.model.dto.UserRequestDto;
 import com.withtaxi.taxi.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -78,8 +80,16 @@ public class UserController {
      *         httpStatus 200 ok 반환
      */
     @PostMapping("/checkPassword")
-    public ResponseEntity<Integer> checkPassword(@RequestBody Map<String, String> passwordMap, Authentication authentication) {
+    public ResponseEntity<Integer> checkPassword(
+            // @RequestBody
+                                                     Map<String, String> passwordMap,
+                                                 HttpEntity<String> entity,
+                                                 Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("###CHECK PASSWORD######");
+        System.out.println(entity.getBody());
+
+        System.out.println("여기까지옴...");
         try {
             return new ResponseEntity(userService.checkPassword(passwordMap.get("password"), principalDetails), HttpStatus.OK);
         }catch (Exception e){
