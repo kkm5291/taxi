@@ -80,19 +80,23 @@ public class UserController {
      *         httpStatus 200 ok 반환
      */
     @PostMapping("/checkPassword")
-    public ResponseEntity<Integer> checkPassword(
-            // @RequestBody
-                                                     Map<String, String> passwordMap,
-                                                 HttpEntity<String> entity,
+    public ResponseEntity<Integer> checkPassword(@RequestBody Map<String, String> passwordMap,
+//                                                 HttpEntity<String> entity,
                                                  Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         System.out.println("###CHECK PASSWORD######");
-        System.out.println(entity.getBody());
+//        System.out.println(entity.getBody());
 
-        System.out.println("여기까지옴...");
         try {
-            return new ResponseEntity(userService.checkPassword(passwordMap.get("password"), principalDetails), HttpStatus.OK);
-        }catch (Exception e){
+            System.out.println("여기까지옴...");
+            System.out.println(passwordMap);
+            System.out.println(principalDetails);
+
+            ResponseEntity entity = new ResponseEntity(userService.checkPassword(passwordMap.get("password"), principalDetails), HttpStatus.OK);
+
+            System.out.println("여기도 옴@@@@@@@@@@@");
+            return entity;
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
